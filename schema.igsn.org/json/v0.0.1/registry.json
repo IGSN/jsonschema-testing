@@ -1,0 +1,74 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://schema.igsn.org/json/v0.0.1/registry.json",
+    "title": "IGSN registry metadata schema",
+    "description": "Core IGSN metadata sent to the registry",
+    "type": "object",
+    
+    "definitions": {
+        "event": {
+            "$id": "#/event",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "pattern": "^(submitted|registered|updated|deprecated|destroyed)$"
+                },
+                "timestamp": { 
+                    "type": "string",
+                    "format": "date-time" 
+                },
+                "comment": { "type": "string" }
+            },
+            "required": ["type", "timestamp"] 
+        }
+    },
+
+    "properties": {
+        "sampleNumber": {
+            "$ref": "identifiers.json#/igsn",
+            "description": "The identifier is a unique string that identifies a resource. At present, the only allowed value is an IGSN handle, registred by an IGSN member. Format should be: 10273/foo"
+        },
+        "sampleNumberType": {
+            "const": "igsn",
+            "description": "The sample identifier type. At present the only allowed value is igsn"
+        },
+        "registrant": {
+            "type": "object",
+            "description": "The allocating agent",
+            "properties": {
+                "registrantName": {
+                    "type": "string",
+                    "description": "The name of the allocating agent"
+                },
+                "registrantId": {
+                    "type": "array",
+                    "description": "List of unique indentifiers for the allocating agent",
+                    "items": {
+                        "anyOf": [
+                            {"$ref": "identifiers.json#/orcid"},
+                            {"$ref": "identifiers.json#/viaf"},
+                            {"$ref": "identifiers.json#/isni"},
+                            {"$ref": "identifiers.json#/researcherId"}
+                        ]
+                    }
+                }
+            },
+            "required": ["registrantName"]
+        },
+        "relatedResourceIdentifier": {
+            "type": "array",
+            "items": { "$ref": "relationships.json#/relatedId" }
+        },
+        "log": {
+            "type": "array",
+            "items": { "$ref": "#/event" },
+            "minItems": 1
+        }
+    },
+    "required": [
+        "sampleNumber",
+        "registrant",
+        "log"
+    ]
+}

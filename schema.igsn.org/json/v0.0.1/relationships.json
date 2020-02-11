@@ -1,0 +1,39 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://schema.igsn.org/json/v0.0.1/relationships.json",
+    "title": "IGSN: Registry metadata schema",
+    "description": "Relationships between identifiers recognized within IGSN metadata",
+    "type": "object",
+
+    "definitions": {
+        "relationshipType": {
+            "$id": "#/relationshipType",
+            "description": "Relationships between identifiers",
+            "enum": [
+                "isCitedBy",
+                "isPartOf",
+                "hasPart",
+                "isReferencedBy",
+                "references",
+                "isDocumentedBy",
+                "documents",
+                "isCompiledBy",
+                "compiles",
+                "isVariantFormOf",
+                "isOriginalFormOf"
+            ]
+        },
+        "relatedId": {
+            "$id": "#/relatedId",
+            "type": "object",
+            "properties": {
+                "id": { "$ref": "identifiers.json#/igsn" },
+                "relationType": { "$ref": "#/definitions/relationshipType" }
+            },
+            "required": [
+                "id",
+                "relationType"
+            ]
+        }
+    }
+}

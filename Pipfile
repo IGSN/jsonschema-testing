@@ -1,0 +1,30 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = "*"
+pylint = "*"
+pytest = "*"
+ipykernel = "*"
+pygments-json = "*"
+tqdm = "*"
+pandas = "*"
+lxml = "*"
+
+[packages]
+fastapi = "*"
+starlette = "*"
+uvicorn = "*"
+requests = "*"
+faker = "*"
+faker-schema = "*"
+jsonschema = {extras = ["format_nongpl"],version = "*"}
+email-validator = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

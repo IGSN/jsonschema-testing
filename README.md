@@ -1,6 +1,8 @@
 # jsonschema-testing
 
-Playground for IGSN 2040 JSON Schemas
+Playground for IGSN 2040 JSON Schemas 
+
+[![Build Status](https://travis-ci.com/IGSN/jsonschema-testing.svg?branch=master)](https://travis-ci.com/IGSN/jsonschema-testing) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/559a4d6f385e4b70b276124e466863e8)](https://www.codacy.com/gh/IGSN/jsonschema-testing?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=IGSN/jsonschema-testing&amp;utm_campaign=Badge_Grade)
 
 ### Installation
 

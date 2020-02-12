@@ -20,7 +20,6 @@ uvicorn = "*"
 requests = "*"
 faker = "*"
 faker-schema = "*"
-jsonschema = {extras = ["format_nongpl"],version = "*"}
 email-validator = "*"
 
 [requires]

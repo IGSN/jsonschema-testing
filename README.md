@@ -2,20 +2,33 @@
 
 Playground for IGSN 2040 JSON Schemas 
 
-[![Build Status](https://travis-ci.com/IGSN/jsonschema-testing.svg?branch=master)](https://travis-ci.com/IGSN/jsonschema-testing) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/559a4d6f385e4b70b276124e466863e8)](https://www.codacy.com/gh/IGSN/jsonschema-testing?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=IGSN/jsonschema-testing&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.com/IGSN/jsonschema-testing.svg?branch=master)](https://travis-ci.com/IGSN/jsonschema-testing) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/559a4d6f385e4b70b276124e466863e8)](https://www.codacy.com/gh/IGSN/jsonschema-testing?utm_source=github.com&utm_medium=referral&utm_content=IGSN/jsonschema-testing&utm_campaign=Badge_Grade)
 
-### Installation
+## Installation
 
-We're using [pipenv]() to manage dependencies - the following should get you going
+We're using [pipenv](https://pipenv.readthedocs.io/en/latest/) to manage dependencies - the following should get you going
 
 ```bash
-$ pip install pipenv  # if you don't already have pipenv
-$ pipenv install
+pip install pipenv  # if you don't already have pipenv
+pipenv install
 ```
 
 If you want the development dependencies then add a `--dev` flag (i.e. 
 `pipenv install --dev`) - this will install a few optional but heavy packages 
 (like ipykernel, lxml and pandas) we're using to play with data.
+
+### Running tests
+
+Tests are run with pytest - these are mostly sanity tests to check that the schemas are behaving as we expect. 
+To run them, do
+
+```bash
+$ pipenv run pytest
+```
+
+in the root directory
+
+### Jupyter kernel
 
 If you want to use the environment in a jupyter notebook, then you need to 
 install the dev dependencies and then create a Jupyter kernel reference as follows:
@@ -33,40 +46,27 @@ $ jupyter lab  # or notebook
 Now you should be able to load the `igsn-jsonschema-testing` kernel in jupyter. 
 Note we're assuming you have jupyter installed in some system environment.
 
-### Locations of things
+## Finding your way around
 
 We're basically keeping all our schemas in the folder structure as we want to publish them. This is an attempt
 to stay consistent with the [metadata](https://github.com/igsn/metadata) repository naming scheme
 
-```
-schema.igsn.org/
-    /xml                               # XML schemas and definitions
-        registration/$version/...
-        description/$version/...
-    /json                              # JSON schemas & definitions
-        registration/$version/...      # Core registry metadata
-        description/
-            geoSamples/$version        # ...an example of a descriptive schema
-            bioSamples/$version        # ...another community descritive schema
-            materialSamples/$version
-            ...
-```
+    schema.igsn.org/
+        /xml                               # XML schemas and definitions
+            registration/$version/...
+            description/$version/...
+        /json                              # JSON schemas & definitions
+            registration/$version/...      # Core registry metadata
+            description/
+                geoSamples/$version        # ...an example of a descriptive schema
+                bioSamples/$version        # ...another community descritive schema
+                materialSamples/$version
+                ...
 
 This structure is likely to be subject to change! Version numbers being used are semVer but with only major and 
 minor increments (i.e. `$major.$minor`). 
 
-### Running tests
-
-Tests are run with pytest - these are mostly sanity tests to check that the schemas are behaving as we expect. 
-To run them, do
-
-```bash
-$ pipenv run pytest
-```
-
-in the root directory
-
-### JSON Schema/JSON-LD info and philosophy
+## JSON Schema/JSON-LD info and philosophy
 
 We're using the [draft-07](https://json-schema.org/specification-links.html#draft-7) version of JSON Schema as 
 that's the one that is implemented by most validators. However there are some nice things in the newer draft 

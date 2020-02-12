@@ -8,7 +8,7 @@ SCHEMA_FOLDER = Path("../schema.igsn.org/json/registration/0.1/").absolute()
 
 
 def get_validator(base_folder, schema_file, defn):
-    "Generate a schema for some definition"
+    "Generate a schema for some definition fragment."
     schema = json.loads(
         f'{{ "$ref": "#/definitions/{defn}" }}',
         base_uri=(base_folder / schema_file).as_uri(),
@@ -17,16 +17,16 @@ def get_validator(base_folder, schema_file, defn):
 
 
 def check(validator, obj, expected):
-    """
-    Test a definition in our JSON schema using some examples
-    
+    """ Test a definition in our JSON schema using some examples
+
     Examples take the form of a Python object and the expected
     validation outcome (i.e. True or False)
-    
+
     Parameters:
-        schema_file - a root file location to test schemas against
-        ref - a reference to the fragment of the schema that you want to test
-        examples - the example data you want to test
+        validator - A validation instance
+        obj - the object to check
+        expected - True if the object should validate, False
+            otherwise
     """
     try:
         validator(obj)

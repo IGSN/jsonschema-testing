@@ -6,7 +6,7 @@ from fastjsonschema import compile as compile_schema, JsonSchemaException
 
 @pytest.fixture()
 def validator(registration_schema_folder):
-    "Load up the registration validator"
+    "Load up the registration validator."
     schema_file = registration_schema_folder / "registry.json"
     with open(schema_file, "r", encoding="utf-8") as src:
         # Here we're using jsonref to dereference local files for dev purposes
@@ -87,7 +87,7 @@ def validator(registration_schema_folder):
     ],
 )
 def test_igsn_registration(validator, obj, should_pass):
-    "Test some IGSN inputs"
+    "Sanity checking for basic IGSN registration inputs."
     try:
         validator(obj)
         if not should_pass:

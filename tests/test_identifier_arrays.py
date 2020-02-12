@@ -4,7 +4,8 @@ import pytest
 
 
 def get_validator(base_folder):
-    "Generate a schema for some definition."
+    """ Generates the validator for this test suite.
+    """
     schema = json.loads(
         """
         {
@@ -42,14 +43,14 @@ def get_validator(base_folder):
 def test_multiid(registration_schema_folder, obj, expected):
     """
     Test a definition in our JSON schema using some examples.
-    
+
     Examples take the form of a Python object and the expected
     validation outcome (i.e. True or False)
-    
+
     Parameters:
-        schema_file - a root file location to test schemas against
-        ref - a reference to the fragment of the schema that you want to test
-        examples - the example data you want to test
+        registration_schema_folder - handled by pytest fixtures
+        obj - the object to test
+        expected - whether the object should pass validation or not
     """
     validator = get_validator(registration_schema_folder)
     try:

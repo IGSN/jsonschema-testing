@@ -26,6 +26,12 @@
                     "format": "uri",
                     "description": "An IGSN given as a DOI reference",
                     "pattern": "^(http(s)?://)?dx.doi.org/10273/[A-Z0-9]+$"
+                },
+                {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "An IGSN given as a Handle.net reference",
+                    "pattern": "^(http(s)?://)?hdl.handle.net/10273/[A-Z0-9]+$"
                 }
             ]
         },

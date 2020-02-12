@@ -5,9 +5,7 @@ from pygson.json_lexer import JSONLexer
 from IPython.core.display import HTML, display
 
 def pprint(code, lexer=None, style='solarized-dark'):
-    """
-    Pretty print some code using a given Pyments lexer.
-    """    
+    " Pretty print some code using a given Pyments lexer."    
     # Load stylesheet for pygments
     allowed = set(styles.get_all_styles())
     if not style in allowed:
@@ -29,5 +27,5 @@ def pprint(code, lexer=None, style='solarized-dark'):
     display(HTML(html))
     
 def pjson(obj, **kwargs):
-    "Print an object as a JSON string"
+    "Print an object as a JSON string."
     pprint(json.dumps(obj, indent=4), lexer='JSONLexer', **kwargs)

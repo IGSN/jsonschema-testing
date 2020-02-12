@@ -1,12 +1,10 @@
-from pathlib import Path
-
 from fastjsonschema import compile as compile_schema, JsonSchemaException
 import jsonref as json
 import pytest
 
 
 def get_validator(base_folder):
-    "Generate a schema for some definition"
+    "Generate a schema for some definition."
     schema = json.loads(
         """
         {
@@ -43,7 +41,7 @@ def get_validator(base_folder):
 )
 def test_multiid(registration_schema_folder, obj, expected):
     """
-    Test a definition in our JSON schema using some examples
+    Test a definition in our JSON schema using some examples.
     
     Examples take the form of a Python object and the expected
     validation outcome (i.e. True or False)

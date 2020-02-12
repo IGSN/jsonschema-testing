@@ -31,12 +31,39 @@ Note we're assuming you have jupyter installed in some system environment.
 
 ### Locations of things
 
-We're basically keeping all our schemas in the folder structure as we want to publish them.
+We're basically keeping all our schemas in the folder structure as we want to publish them. This is an attempt
+to stay consistent with the [metadata](https://github.com/igsn/metadata) repository naming scheme
 
 ```
 schema.igsn.org/
-    /vXXX           # XML schemas and definitions
-    /json/vXXX      # JSON schemas & definitions
+    /xml                               # XML schemas and definitions
+        registration/$version/...
+        description/$version/...
+    /json                              # JSON schemas & definitions
+        registration/$version/...      # Core registry metadata
+        description/
+            geoSamples/$version        # ...an example of a descriptive schema
+            bioSamples/$version        # ...another community descritive schema
+            materialSamples/$version
+            ...
 ```
 
-This structure is likely to be subject to change (i.e. it might be nice to have an XML tag as well as a json tag).
+This structure is likely to be subject to change! Version numbers being used are semVer but with only major and 
+minor increments (i.e. `$major.$minor`). 
+
+### JSON Schema/JSON-LD info and philosophy
+
+We're using the [draft-07](https://json-schema.org/specification-links.html#draft-7) version of JSON Schema as 
+that's the one that is implemented by most validators. However there are some nice things in the newer draft 
+([2019-09](https://json-schema.org/draft/2019-09/release-notes.html) - like better keywords, `$anchor` references 
+and vocabulary support through JSON MetaSchema) that we should keep our eyes on.
+
+We're aiming to incorporate JSON-LD into our definitions to constrain keywords and support linked data workflows, 
+however it's still useful to have a canonical document representation (essentially in JSON-LD terms this would 
+be a graph + a framing) since this is still the way most developers think. Hence we're using JSON Schema to constrain
+representations for now.
+
+Note that we won't generate a 1:1 relationship between the XML schemas and the JSON representation - this is 
+undesireable for a number of reasons (not least being that XML-dressed-as-JSON is a pain to work with), while
+also being impossible to do canonically (i.e. we're going to make some editing decisions anyway so why not go the
+whole hog?).

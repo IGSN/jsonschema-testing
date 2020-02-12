@@ -18,6 +18,7 @@ requests = "*"
 faker = "*"
 faker-schema = "*"
 email-validator = "*"
+fastjsonschema = "*"
 
 [requires]
 python_version = "3.7"

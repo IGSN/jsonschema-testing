@@ -1,7 +1,0 @@
-{
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://schema.igsn.org/json/v0.0.1/identifiers.json",
-    "title": "IGSN: Descriptive schemas",
-    "description": "Descriptive metadata schema for IGSN metadata",
-    "type": "object"
-}

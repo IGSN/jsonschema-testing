@@ -1,7 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://schema.igsn.org/json/v0.0.1/registry.json",
-    "@context": "context.json",
+    "$id": "http://schema.igsn.org/json/registration/0.1/registry.json",
     "title": "IGSN registry metadata schema",
     "description": "Core IGSN metadata sent to the registry",
     "type": "object",
@@ -63,7 +62,7 @@
         },
         "log": {
             "type": "array",
-            "items": { "$ref": "#/event" },
+            "items": { "$ref": "#/definitions/event" },
             "minItems": 1
         }
     },

@@ -21,7 +21,9 @@ install the dev dependencies and then create a Jupyter kernel reference as follo
 ```bash
 $ pipenv install --dev  # if you haven't already done this
 $ pipenv shell
+Launching subshell in virtual environment…
 (jsonschema-testing) $ python -m ipykernel install --user --name 'igsn-jsonschema-testing'
+Installed kernelspec igsn-jsonschema-testing in /path/to/jupyter/kernels/igsn-jsonschema-testing
 (jsonschema-testing) $ exit
 $ jupyter lab  # or notebook
 ```

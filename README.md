@@ -53,6 +53,17 @@ schema.igsn.org/
 This structure is likely to be subject to change! Version numbers being used are semVer but with only major and 
 minor increments (i.e. `$major.$minor`). 
 
+### Running tests
+
+Tests are run with pytest - these are mostly sanity tests to check that the schemas are behaving as we expect. 
+To run them, do
+
+```bash
+$ pipenv run pytest
+```
+
+in the root directory
+
 ### JSON Schema/JSON-LD info and philosophy
 
 We're using the [draft-07](https://json-schema.org/specification-links.html#draft-7) version of JSON Schema as 

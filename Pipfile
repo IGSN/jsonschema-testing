@@ -14,9 +14,6 @@ pandas = "*"
 lxml = "*"
 
 [packages]
-fastapi = "*"
-starlette = "*"
-uvicorn = "*"
 requests = "*"
 faker = "*"
 faker-schema = "*"

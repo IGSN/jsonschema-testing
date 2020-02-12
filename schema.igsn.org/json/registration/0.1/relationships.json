@@ -26,13 +26,51 @@
         "relatedId": {
             "$id": "#/relatedId",
             "type": "object",
-            "properties": {
-                "id": { "$ref": "identifiers.json#/igsn" },
-                "relationType": { "$ref": "#/definitions/relationshipType" }
-            },
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "kind": {"const": "igsn"},
+                        "id": { "$ref": "identifiers.json#/definitions/igsnPid" },
+                        "relationship": { "$ref": "#/definitions/relationshipType" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "kind": { "const": "viaf" },
+                        "id": { "$ref": "identifiers.json#/definitions/viafPid" },
+                        "relationship": { "$ref": "#/definitions/relationshipType" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "kind": { "const": "researcherId" },
+                        "id": { "$ref": "identifiers.json#/definitions/researcherIdPid" },
+                        "relationship": { "$ref": "#/definitions/relationshipType" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "kind": { "const": "isni" },
+                        "id": { "$ref": "identifiers.json#/definitions/isniPid" },
+                        "relationship": { "$ref": "#/definitions/relationshipType" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "kind": { "const": "orcid" },
+                        "id": { "$ref": "identifiers.json#/definitions/orcidPid" },
+                        "relationship": { "$ref": "#/definitions/relationshipType" }
+                    }
+                }
+            ],
             "required": [
                 "id",
-                "relationType"
+                "relationship"
             ]
         }
     }

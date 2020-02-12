@@ -6,9 +6,8 @@
     "type": "object",
 
     "definitions": {
-        "igsn": {
-            "$id": "#/igsn",
-            "description": "A valid IGSN identifier",
+        "igsnPid": {
+            "description": "Formatting for IGSN PIDs",
             "anyOf": [
                 {
                     "type": "string",
@@ -35,29 +34,85 @@
                 }
             ]
         },
-        "orcid": {
-            "$id": "#/orcid",
-            "type": "string",
-            "description": "An ORCID (https://en.wikipedia.org/wiki/ORCID)",
-            "pattern": "http[s]?://orcid.com/^([0-9]{4}[ -]?){3}[0-9]{4}"
+        "igsn": {
+            "description": "An IGSN is a unique persistent identifier that identifies a sample",
+            "type": "object",
+            "properties": {
+                "kind": { "const": "igsn" },
+                "id": { "$ref": "#/definitions/igsnPid" }
+            },
+            "required": ["kind", "id"]
         },
-        "isni": {
-            "$id": "#/isni",
+
+        "orcidPid": {
+            "description": "Formatting for ORCID PIDs",
+            "anyOf": [
+                {
+                    "type": "string",
+                    "description": "a plain ORCID",
+                    "pattern": "^([0-9]{4}[ -]?){3}[0-9]{4}$"
+                },
+                {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "a link to an ORCID landing page",
+                    "pattern": "^http(s)?://orcid.com/([0-9]{4}[-]?){3}[0-9]{4}$"
+                }
+            ]
+        },
+        "orcid": {
+            "description": "An ORCID (https://en.wikipedia.org/wiki/ORCID), including a PID kind",
+            "type": "object",
+            "properties": {
+                "kind": { "const": "orcid" },
+                "id": { "$ref": "#/definitions/orcidPid" }         
+            },
+            "required": ["kind", "id"]
+        },
+
+        "isniPid": {
+            "description": "Formatting for ISNI PIDs",
             "type": "string",
-            "description": "An International Standard Name Identifier (https://en.wikipedia.org/wiki/ISNI)",
             "pattern": "^([0-9]{4}[ -]?){3}[0-9]{4}X$"
         },
-        "researcherID": {
-            "$id": "#/researcherID",
+        "isni": {
+            "description": "An International Standard Name Identifier (https://en.wikipedia.org/wiki/ISNI)",
+            "type": "object",
+            "properties": {
+                "kind": { "const": "isni" },
+                "id": { "$ref": "#/definitions/isniPid" }
+            },
+            "required": ["kind", "id"]
+        },
+
+        "researcherIdPid": {
+            "description": "Formatting for ResearcherID PIDs",
             "type": "string",
-            "description": "A ResearcherID (https://en.wikipedia.org/ResearcherID",
             "pattern": "^[A-z]-[0-9]{4}-[0-9]{4}$"
         },
-        "viaf": {
-            "$id": "#/viaf",
+        "researcherId": {
+            "description": "A ResearcherID (https://en.wikipedia.org/ResearcherID",
+            "type": "object",
+            "properties": {
+                "kind": { "const": "researcherId" },
+                "id": { "$ref": "#/definitions/researcherIdPid" }
+            },
+            "required": ["kind", "id"]
+        },
+        
+        "viafPid": {
+            "description": "Formatting for VIAF objects",
             "type": "string",
-            "format": "uri",
-            "description": "A virtual international authority file (https://en.wikipedia.org/wiki/Virtual_international_authority_file)"
+            "format": "uri"
+        },
+        "viaf": {
+            "description": "A virtual international authority file (https://en.wikipedia.org/wiki/Virtual_international_authority_file)",
+            "type": "object",
+            "properties": {
+                "kind": { "const": "viaf" },
+                "id": { "$ref": "#/definitions/viafPid" }
+            },
+            "required": ["kind", "id"]
         }
     }
 }

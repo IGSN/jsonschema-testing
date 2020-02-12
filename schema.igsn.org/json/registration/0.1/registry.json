@@ -25,40 +25,34 @@
     },
 
     "properties": {
-        "sampleNumber": {
-            "$ref": "identifiers.json#/igsn",
-            "description": "The identifier is a unique string that identifies a resource. At present, the only allowed value is an IGSN handle, registred by an IGSN member. Format should be: 10273/foo"
-        },
-        "sampleNumberType": {
-            "const": "igsn",
-            "description": "The sample identifier type. At present the only allowed value is igsn"
-        },
+        "igsn": { "$ref": "identifiers.json#/definitions/igsnPid" },
         "registrant": {
             "type": "object",
             "description": "The allocating agent",
             "properties": {
-                "registrantName": {
+                "name": {
                     "type": "string",
                     "description": "The name of the allocating agent"
                 },
-                "registrantId": {
+                "identifiers": {
                     "type": "array",
                     "description": "List of unique indentifiers for the allocating agent",
                     "items": {
                         "anyOf": [
-                            {"$ref": "identifiers.json#/orcid"},
-                            {"$ref": "identifiers.json#/viaf"},
-                            {"$ref": "identifiers.json#/isni"},
-                            {"$ref": "identifiers.json#/researcherId"}
+                            { "$ref": "identifiers.json#/definitions/viaf" },
+                            { "$ref": "identifiers.json#/definitions/researcherId" },
+                            { "$ref": "identifiers.json#/definitions/isni" },
+                            { "$ref": "identifiers.json#/definitions/orcid" }
                         ]
                     }
                 }
             },
-            "required": ["registrantName"]
+            "required": ["name"]
         },
-        "relatedResourceIdentifier": {
+        "related": {
             "type": "array",
-            "items": { "$ref": "relationships.json#/relatedId" }
+            "items": { "$ref": "relationships.json#/definitions/relatedId" },
+            "default": []
         },
         "log": {
             "type": "array",
@@ -67,8 +61,7 @@
         }
     },
     "required": [
-        "sampleNumber",
-        "registrant",
-        "log"
+        "igsn",
+        "registrant"
     ]
 }

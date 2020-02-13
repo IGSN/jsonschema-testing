@@ -1,10 +1,6 @@
 import random
 from itertools import chain, count, islice
 from re import sre_parse
-from re.sre_parse import (   # pylint: disable=no-member,import-error
-    LITERAL, NOT_LITERAL, AT, IN, ANY, RANGE, BRANCH, SUBPATTERN,
-    ASSERT, ASSERT_NOT, GROUPREF, MAX_REPEAT, MIN_REPEAT, NEGATE
-)
 
 from .utils import flatten, join
 from .alpha import printable  # pylint: disable=no-name-in-module
@@ -17,22 +13,24 @@ class RegexInverter:
 
     # A mapping from opcode to a handling function. These have a signature
     # of func(self, obj) -> str
+    # pylint: disable=no-member
     handlers = {
-        LITERAL: lambda _, o: chr(o),
-        NOT_LITERAL: lambda _, o: printable.diff(chr(o)).choose(), 
-        AT: lambda _, _: "",
-        IN: lambda s, o: s.handle_in(o),
-        ANY: lambda _, _: printable.choose(),
-        RANGE: lambda _, o: [chr(i) for i in range(o[0], o[1] + 1)],
-        BRANCH: lambda s, o: join(s.delegate(x) for x in random.choice(o[1])),
-        SUBPATTERN: lambda s, o: s.handle_group(o),
-        ASSERT: lambda s, o: join(s.delegate(x) for x in [1]),
-        ASSERT_NOT: lambda _, _: '',
-        GROUPREF: lambda s, o: s.cache[o],
-        MAX_REPEAT: lambda s, o: s.handle_repeat(o),
-        MIN_REPEAT: lambda s, o: s.handle_repeat(o),
-        NEGATE: lambda _, _: [False]
-    }
+        sre_parse.LITERAL: lambda s, o: chr(o),
+        sre_parse.NOT_LITERAL: lambda s, o: printable.diff(chr(o)).choose(), 
+        sre_parse.AT: lambda s, o: "",
+        sre_parse.IN: lambda s, o: s.handle_in(o),
+        sre_parse.ANY: lambda s, o: printable.choose(),
+        sre_parse.RANGE: lambda s, o: [chr(i) for i in range(o[0], o[1] + 1)],
+        sre_parse.BRANCH: lambda s, o: join(s.delegate(x) for x in random.choice(o[1])),
+        sre_parse.SUBPATTERN: lambda s, o: s.handle_group(o),
+        sre_parse.ASSERT: lambda s, o: join(s.delegate(x) for x in [1]),
+        sre_parse.ASSERT_NOT: lambda s, o: '',
+        sre_parse.GROUPREF: lambda s, o: s.cache[o],
+        sre_parse.MAX_REPEAT: lambda s, o: s.handle_repeat(o),
+        sre_parse.MIN_REPEAT: lambda s, o: s.handle_repeat(o),
+        sre_parse.NEGATE: lambda s, o: [False]
+    } 
+    # pylint: enable=no-member
 
     def __init__(self):
         self.cache = dict()
@@ -88,7 +86,7 @@ class RegexInverter:
         A group object is a tuple of (group_index, obj), where group_index
         may be None if the group isn't labeled. 
         """
-        group_index, obj = obj
+        group_index, obj = obj[0], obj[-1]
         result = join(self.delegate(o) for o in obj)
         if group_index:
             self.cache[group_index] = result

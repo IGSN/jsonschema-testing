@@ -25,13 +25,15 @@
         },
         "relatedId": {
             "$id": "#/relatedId",
-            "type": "object",
             "anyOf": [
                 {
                     "type": "object",
                     "properties": {
-                        "kind": {"const": "igsn"},
-                        "id": { "$ref": "identifiers.json#/definitions/igsnPid" },
+                        "kind": {
+							"type": "string",
+							"const": "igsn"
+						},
+                        "id": { "$ref": "./identifiers.json#/definitions/igsnPid" },
                         "relationship": { "$ref": "#/definitions/relationshipType" }
                     }
                 },

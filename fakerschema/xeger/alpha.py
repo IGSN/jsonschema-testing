@@ -15,7 +15,9 @@ class Alphabet:
     def chars(self):
         return tuple(join(sorted(self._chars)))
     
-    @cached_property(['_chars'])
+    def __str__(self):
+        return join(self.chars)
+    
     def diff(self, *strings):
         """
         Return a new alphabet with the set difference between the 
@@ -24,6 +26,17 @@ class Alphabet:
         Parameters:
             *strings - strings of characters to remove from the alphabet
         """
+        # Handle alphabet instances
+        _strings = []
+        for string in strings:
+            try:
+                _strings.append(string.string)
+            except AttributeError:
+                # we just have a string
+                _strings.append(string)
+        strings = _strings
+        
+        # Join everything together
         other = set(join(*strings))
         return Alphabet(join(set(self.chars) - other))
 

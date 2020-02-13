@@ -3,7 +3,8 @@ from itertools import chain, count, islice
 from re import sre_parse
 
 from .utils import flatten, join
-from .alpha import printable  # pylint: disable=no-name-in-module
+from .alpha import printable, digits, not_digits, \
+    whitespace, not_whitespace, word, not_word  # pylint: disable=no-name-in-module
 
 class RegexInverter:
 
@@ -23,13 +24,24 @@ class RegexInverter:
         sre_parse.RANGE: lambda s, o: [chr(i) for i in range(o[0], o[1] + 1)],
         sre_parse.BRANCH: lambda s, o: join(s.delegate(x) for x in random.choice(o[1])),
         sre_parse.SUBPATTERN: lambda s, o: s.handle_group(o),
-        sre_parse.ASSERT: lambda s, o: join(s.delegate(x) for x in [1]),
+        sre_parse.ASSERT: lambda s, o: join(s.delegate(x) for x in o[1]),
         sre_parse.ASSERT_NOT: lambda s, o: '',
         sre_parse.GROUPREF: lambda s, o: s.cache[o],
         sre_parse.MAX_REPEAT: lambda s, o: s.handle_repeat(o),
         sre_parse.MIN_REPEAT: lambda s, o: s.handle_repeat(o),
-        sre_parse.NEGATE: lambda s, o: [False]
+        sre_parse.NEGATE: lambda s, o: [False],
+        sre_parse.CATEGORY: lambda s, o: s.categories[o]
     } 
+
+    # A mapping from category to an alphabet
+    categories = {
+        sre_parse.CATEGORY_DIGIT: str(digits),
+        sre_parse.CATEGORY_NOT_DIGIT: str(not_digits),
+        sre_parse.CATEGORY_SPACE: str(whitespace),
+        sre_parse.CATEGORY_NOT_SPACE: str(not_whitespace),
+        sre_parse.CATEGORY_WORD: str(word),
+        sre_parse.CATEGORY_NOT_WORD: str(not_word),
+    }
     # pylint: enable=no-member
 
     def __init__(self):
@@ -64,7 +76,7 @@ class RegexInverter:
         """
         Build an example of the string given a parse tree
         """
-        result = join(self.delegate(obj) for obj in parse_tree)
+        result = join(*(self.delegate(obj) for obj in parse_tree))
         self.cache.clear()
         return result
 
@@ -77,7 +89,7 @@ class RegexInverter:
         handler for processing.
         """
         opcode, obj = obj  # unwrap the opcode
-        return join(self.handlers[opcode](self, obj))
+        return self.handlers[opcode](self, obj)
 
     def handle_group(self, obj):
         """
@@ -115,7 +127,7 @@ class RegexInverter:
         candidates = list(chain(*(self.delegate(o) for o in obj)))
         if candidates[0] is False:
             candidates = printable.diff(*candidates[1:])
-            return candidates.choose
+            return candidates.choose()
         else:
             return random.choice(candidates)
 

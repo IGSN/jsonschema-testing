@@ -18,9 +18,10 @@ jsonschema = "*"
 requests = "*"
 faker = "*"
 faker-schema = "*"
-email-validator = "*"
 fastjsonschema = "*"
 jsonref = "*"
+click = "*"
+catalogue = "*"
 
 [requires]
 python_version = "3.7"

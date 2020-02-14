@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a573dbe685f6d0aa7347da9be34061d3da04b6d7c47cf02f308bfb3bcefd9421"
+            "sha256": "9b892bac853304d4fc0701b19f8bdaf469cad188a02a13599e507f315dcf68be"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -202,6 +202,13 @@
                 "sha256:5d19b92a3c8f7f101c8dd86afd86b0f061a8ce4540ab8cd401fa2542756bce6d"
             ],
             "version": "==4.4.1"
+        },
+        "docformatter": {
+            "hashes": [
+                "sha256:d8db663665becccac75737b2635a06076f2c832bf861322a7bfc512f0a9fa7e3"
+            ],
+            "index": "pypi",
+            "version": "==1.3.1"
         },
         "importlib-metadata": {
             "hashes": [
@@ -638,6 +645,12 @@
             ],
             "markers": "implementation_name == 'cpython' and python_version < '3.8'",
             "version": "==1.4.1"
+        },
+        "untokenize": {
+            "hashes": [
+                "sha256:3865dbbbb8efb4bb5eaa72f1be7f3e0be00ea8b7f125c69cbd1f5fda926f37a2"
+            ],
+            "version": "==0.1.1"
         },
         "wcwidth": {
             "hashes": [

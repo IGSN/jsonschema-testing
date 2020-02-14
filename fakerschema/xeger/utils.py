@@ -3,7 +3,7 @@ import functools
 
 
 def flatten(iterables):
-    "Flatten an iterable of iterables"
+    """Flatten an iterable of iterables."""
     for elem in iterables:
         if isinstance(elem, Iterable) and not isinstance(elem, str):
             for subelem in flatten(elem):
@@ -13,18 +13,17 @@ def flatten(iterables):
 
 
 def join(*strings):
-    "Join strings together"
+    """Join strings together."""
     return "".join(s for s in flatten(strings))
 
 
 def cached_property(inputs=None):
-    """
-    Returns a cached proeprty that is calculated once.
+    """Returns a cached proeprty that is calculated once.
 
-    If inputs are specified, then if those properties change the propery is 
-    recalculated. 
+    If inputs are specified, then if those properties change the propery is
+    recalculated.
 
-    Usage is as follows; given a class, you can declare a cached property with 
+    Usage is as follows; given a class, you can declare a cached property with
     the `@cached_property` decorator:
 
     ```python
@@ -40,7 +39,7 @@ def cached_property(inputs=None):
             time.sleep(100)  # must sleep after flying
             return mass / 400
     ```
-    
+
     you can do the following:
 
     ```
@@ -51,7 +50,7 @@ def cached_property(inputs=None):
     s.air_speed     # will recalculate
     ```
 
-    i,.e. the `air_speed` will be lazily recalculated if `self.mass`, or 
+    i,.e. the `air_speed` will be lazily recalculated if `self.mass`, or
     `self.laden` change.
 
     Parameters:
@@ -60,7 +59,7 @@ def cached_property(inputs=None):
             this property is only laxily calculated once.
     """
     # Handle defaults
-    inputs = inputs or [] 
+    inputs = inputs or []
 
     # Wrap property method
     def smart_cached_property(func):
@@ -87,4 +86,3 @@ def cached_property(inputs=None):
             return x
         return property(get)
     return smart_cached_property
-        

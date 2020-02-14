@@ -2,7 +2,7 @@ import random
 from itertools import chain, count, islice
 from re import sre_parse
 
-from .utils import flatten, join
+from .utils import join
 from .alpha import printable, digits, not_digits, \
     whitespace, not_whitespace, word, not_word  # pylint: disable=no-name-in-module
 
@@ -10,15 +10,11 @@ class RegexInverter:
 
     """
     Inverts a regex, i.e. given a regex, find a random string
-    that matches the regex. 
+    that matches the regex.
 
     You probably don't want to create this class directly, think about
     using the xeger function instead.
 
-    Init parameters:
-        range_limit - generally * and + will match an infinitely
-            long list, this limits the number of matches which will return.
-            If None, defaults to a limit of 100
     """
 
     default_range_limit = 100
@@ -28,7 +24,7 @@ class RegexInverter:
     # pylint: disable=no-member
     handlers = {
         sre_parse.LITERAL: lambda s, o: chr(o),
-        sre_parse.NOT_LITERAL: lambda s, o: printable.diff(chr(o)).choose(), 
+        sre_parse.NOT_LITERAL: lambda s, o: printable.diff(chr(o)).choose(),
         sre_parse.AT: lambda s, o: "",
         sre_parse.IN: lambda s, o: s.handle_in(o),
         sre_parse.ANY: lambda s, o: printable.choose(),
@@ -42,7 +38,7 @@ class RegexInverter:
         sre_parse.MIN_REPEAT: lambda s, o: s.handle_repeat(o),
         sre_parse.NEGATE: lambda s, o: [False],
         sre_parse.CATEGORY: lambda s, o: s.categories[o]
-    } 
+    }
 
     # A mapping from category to an alphabet
     categories = {
@@ -56,6 +52,14 @@ class RegexInverter:
     # pylint: enable=no-member
 
     def __init__(self, range_limit=None):
+        """
+        Create an RegexInverter
+
+        Parameters:
+            range_limit - generally * and + will match an infinitely
+                long list, this limits the number of matches which will return.
+                If None, defaults to a limit of 100
+        """
         self.cache = dict()
         self.range_limit = range_limit or self.default_range_limit
 
@@ -69,9 +73,9 @@ class RegexInverter:
         ```python
         # to make things reproduceable
         >>> from random import seed
-        >>> seed(42) 
+        >>> seed(42)
         >>> xeger = RegexInverter(range_limit=5)
-        
+
         # Random credit card numbers
         >>> list(xeger('([0-9]{4}[ -]){3}[0-9]{4}', count=4))
         ['4332-8196-0133-8386',
@@ -93,9 +97,8 @@ class RegexInverter:
             regex - a re.Regex object or string
             limit - the number of strings to generate. If None, returns
                 an infinite generator
-            
-        Returns:
-            a generator over random strings
+
+        Returns a generator over random strings
         """
         # If we've got a re.Regex object then unwrap it, then parse
         try:
@@ -108,7 +111,7 @@ class RegexInverter:
             yield from islice((self.build(tree) for _ in count()), limit)
         else:
             yield from (self.build(tree) for _ in count())
-    
+
     def build(self, parse_tree):
         """
         Build an example of the string given a parse tree
@@ -120,9 +123,9 @@ class RegexInverter:
     def delegate(self, obj):
         """
         Delegate the object to the correct handler
-        
+
         Objects are made of an opcode from re.sre_parse.OPCODES, and
-        a child object, so we just pass these off to the relevant 
+        a child object, so we just pass these off to the relevant
         handler for processing.
         """
         opcode, obj = obj  # unwrap the opcode
@@ -131,9 +134,9 @@ class RegexInverter:
     def handle_group(self, obj):
         """
         Handle a group object in the regex.
-        
+
         A group object is a tuple of (group_index, obj), where group_index
-        may be None if the group isn't labeled. 
+        may be None if the group isn't labeled.
         """
         group_index, obj = obj[0], obj[-1]
         result = join(self.delegate(o) for o in obj)
@@ -157,7 +160,7 @@ class RegexInverter:
         """
         Handle an in object in the regex
 
-        These are a list of objects - we first resolve these and then just 
+        These are a list of objects - we first resolve these and then just
         select one uniformly. The obj has the form (flag, candidates) - if flag
         is false then we want objects not in this selection.
         """
@@ -169,21 +172,21 @@ class RegexInverter:
             return random.choice(candidates)
 
 
-# A light wrapper to hide the nasty classes 
+# A light wrapper to hide the nasty classes
 def xeger(regex, count=None, range_limit=None):
     r"""
     Invert a regex, i.e. given a regex, generate random strings that match
     the regex.
 
-    A wrapper around the RegexInverter class to make it easier to call. 
+    A wrapper around the RegexInverter class to make it easier to call.
 
     Example usage:
 
     ```python
     # to make things reproduceable
     >>> from random import seed
-    >>> seed(42)  
-    
+    >>> seed(42)
+
     # Random credit card numbers
     >>> list(xeger('([0-9]{4}[ -]){3}[0-9]{4}', count=4))
     ['4332-8196-0133-8386',
@@ -204,7 +207,7 @@ def xeger(regex, count=None, range_limit=None):
             an infinite generator
         range_limit - generally * and + will match an infinitely
             long list, tis limits the number of matches which will return
-        
+
     Returns:
         a generator over random strings
     """

@@ -8,9 +8,20 @@ from .alpha import printable, digits, not_digits, \
 
 class RegexInverter:
 
-    # Generally, * and + will match an infinitely long list,
-    # this limits the number of matches which will return
-    range_limit = 100
+    """
+    Inverts a regex, i.e. given a regex, find a random string
+    that matches the regex. 
+
+    You probably don't want to create this class directly, think about
+    using the xeger function instead.
+
+    Init parameters:
+        range_limit - generally * and + will match an infinitely
+            long list, this limits the number of matches which will return.
+            If None, defaults to a limit of 100
+    """
+
+    default_range_limit = 100
 
     # A mapping from opcode to a handling function. These have a signature
     # of func(self, obj) -> str
@@ -44,13 +55,39 @@ class RegexInverter:
     }
     # pylint: enable=no-member
 
-    def __init__(self):
+    def __init__(self, range_limit=None):
         self.cache = dict()
+        self.range_limit = range_limit or self.default_range_limit
 
     def __call__(self, regex, limit=None):
-        """
+        r"""
         Invert a regex, i.e. given a regex, generate random strings that match
         the regex.
+
+        Usage:
+
+        ```python
+        # to make things reproduceable
+        >>> from random import seed
+        >>> seed(42) 
+        >>> xeger = RegexInverter(range_limit=5)
+        
+        # Random credit card numbers
+        >>> list(xeger('([0-9]{4}[ -]){3}[0-9]{4}', count=4))
+        ['4332-8196-0133-8386',
+         '9402-5423-1161-5940',
+         '6184-9310-4131-4752',
+         '3419-8327-4835-3056']
+
+        # Random HTML tags
+        >>> list(xeger(r'^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$', count=3))
+        ['<cgs6o[nV-=:{`={fROJ7,]\t/>',
+         '<esR#MLhW;b\nsxs|>~nG>R/</e>',
+         '<axxi\\(m\\i.Ka_>DY\x0b)</axxi>']
+        ```
+
+        You might also like to look at the `xeger` function which handles
+        creating the inverter class under the covers for you.
 
         Parameters:
             regex - a re.Regex object or string
@@ -133,18 +170,43 @@ class RegexInverter:
 
 
 # A light wrapper to hide the nasty classes 
-def xeger(regex, limit=None):
-    """
+def xeger(regex, count=None, range_limit=None):
+    r"""
     Invert a regex, i.e. given a regex, generate random strings that match
     the regex.
 
+    A wrapper around the RegexInverter class to make it easier to call. 
+
+    Example usage:
+
+    ```python
+    # to make things reproduceable
+    >>> from random import seed
+    >>> seed(42)  
+    
+    # Random credit card numbers
+    >>> list(xeger('([0-9]{4}[ -]){3}[0-9]{4}', count=4))
+    ['4332-8196-0133-8386',
+     '9402-5423-1161-5940',
+     '6184-9310-4131-4752',
+     '3419-8327-4835-3056']
+
+    # Random HTML tags
+    >>> list(xeger(r'^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$', range_limit=5, count=3))
+    ['<cgs6o[nV-=:{`={fROJ7,]\t/>',
+     '<esR#MLhW;b\nsxs|>~nG>R/</e>',
+     '<axxi\\(m\\i.Ka_>DY\x0b)</axxi>']
+    ```
+
     Parameters:
         regex - a re.Regex object or string
-        limit - the number of strings to generate. If None, returns
+        count - the number of strings to generate. If None, returns
             an infinite generator
+        range_limit - generally * and + will match an infinitely
+            long list, tis limits the number of matches which will return
         
     Returns:
         a generator over random strings
     """
-    generator = RegexInverter()
-    return generator(regex, limit)
+    generator = RegexInverter(range_limit=range_limit)
+    return generator(regex, count)

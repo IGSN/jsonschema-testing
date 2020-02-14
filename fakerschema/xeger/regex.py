@@ -150,7 +150,7 @@ class RegexInverter:
         randomly.
         """
         start, end, obj = obj
-        repeats = random.randint(start, min(end, self.range_limit))
+        repeats = random.randint(start, min(end, max(start + 1, self.range_limit)))
         return join(join(self.delegate(o) for o in obj) for _ in range(repeats))
 
     def handle_in(self, obj):

@@ -1,0 +1,556 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "https://igsn.csiro.au/schemas/3.0/desc.json",
+	"title": "CSIRO IGSN descriptive metadata json schema",
+	"description": "JSON Schema created by adevaraju@marum.de based on the xml schema https://github.com/IGSN/csiro-igsn-schema/tree/master/3.0",
+	"additionalProperties": false,
+	"definitions": {
+		"def_logdate": {
+			"properties": {
+				"value": {
+					"$ref": "#/definitions/def_W3CDTFdate"
+				},
+				"eventType": {
+					"$ref": "#/definitions/eventType"
+				}
+			},
+			"required": [
+				"eventType"
+			],
+			"type": "object"
+		},
+		"def_igsn": {
+			"description": "IGSN syntax data type",
+			"pattern": "^(([A-Z]{2,2}[\\--\\.0-9A-Za-z]+))$",
+			"type": "string"
+		},
+		"def_relatedresource": {
+			"additionalProperties": false,
+			"properties": {
+				"value": {
+					"type": "string"
+				},
+				"relatedResourceIdentifierType": {
+					"$ref": "#/definitions/identifierType"
+				},
+				"relationType": {
+					"$ref": "#/definitions/relationType"
+				}
+			},
+			"required": [
+				"relatedResourceIdentifierType",
+				"relationType"
+			],
+			"type": "object"
+		},
+		"def_geometry": {
+			"additionalProperties": false,
+			"properties": {
+				"value": {
+					"type": "string"
+				},
+				"geometryURI": {
+					"type": "string",
+					"format": "uri"
+				},
+				"srid": {
+					"$ref": "#/definitions/spatialRefType"
+				},
+				"verticalDatum": {
+					"$ref": "#/definitions/spatialRefType"
+				}
+			},
+			"required": [
+				"srid"
+			],
+			"type": "object"
+		},
+		"def_method": {
+			"properties": {
+				"value": {
+					"type": "string"
+				},
+				"methodURI": {
+					"type": "string",
+					"format": "uri"
+				}
+			},
+			"type": "object"
+		},
+		"def_W3CDTFdate": {
+			"anyOf": [
+				{
+					"description": "2011-10-05T08:00",
+					"pattern": "^([\\d]{4,4}\\-[\\d][\\d]\\-[\\d][\\d]T[\\d][\\d]\\:[\\d][\\d])$",
+					"type": "string"
+				},
+				{
+					"description": "2011-10-05T08:00+00:00",
+					"pattern": "^([\\d]{4,4}\\-[\\d][\\d]\\-[\\d][\\d]T[\\d][\\d]\\:[\\d][\\d]\\+[\\d][\\d]\\:[\\d][\\d])$",
+					"type": "string"
+				}
+			],
+			"description": "Definition of W3CDTF compliant date. see: http://www.w3.org/TR/NOTE-datetime"
+		},
+		"contributorType": {
+			"description": "The type of contributor of the resource (adapted from datacite-contributorType-v4.0.xsd'). A full list of definitions available at http://pid.geoscience.gov.au/def/voc/igsn-codelists/contributorType",
+			"enum": [
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/pointOfContact",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/custodian",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/funder",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/processor",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/principalInvestigator",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/contributor",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/collaborator",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/rightsHolder",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/owner",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/sponsor",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/stakeholder",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/user",
+				"http://registry.it.csiro.au/def/isotc211/CI_RoleCode/originator"
+			],
+			"type": "string"
+		},
+		"eventType": {
+			"description": "The status type of a resource and its registration. ",
+			"enum": [
+				"registered",
+				"updated",
+				"deprecated",
+				"destroyed"
+			],
+			"type": "string"
+		},
+		"geometryType": {
+			"enum": [
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Point",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Linestring",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/MultiPoint",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Polygon",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Geometry",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/GeometryCollection",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Curve",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Line",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/LinearRing",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/MultiCurve",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/MultiLineString",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Surface",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/MultiSurface",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/MultiPolygon"
+			],
+			"type": "string"
+		},
+		"identifierType": {
+			"description": "The type of identifier (adapted from datacite-relatedIdentifierType-v4.0.xsd)",
+			"enum": [
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ARK",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/DOI",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Handle",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IGSN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISBN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISNI",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISSN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/LSID",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ORCID",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/PURL",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/URL",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/URN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/VIAF",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/arXiv",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/bibcode",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/EAN13",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/EISSN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/ISTC",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/PMID",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/LISSN",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/UPC"
+			],
+			"type": "string"
+		},
+		"materialType": {
+			"description": "Categorize the materials that compose a resource. Adapted from http://vocabulary.odm2.org/medium/. For all material types, see http://vocabulary.odm2.org/medium/materialType ",
+			"enum": [
+				"http://vocabulary.odm2.org/medium/snow",
+				"http://vocabulary.odm2.org/medium/soil",
+				"http://vocabulary.odm2.org/medium/tissue",
+				"http://vocabulary.odm2.org/medium/particulate",
+				"http://vocabulary.odm2.org/medium/rock",
+				"http://vocabulary.odm2.org/medium/sediment",
+				"http://vocabulary.odm2.org/medium/other",
+				"http://vocabulary.odm2.org/medium/mineral",
+				"http://vocabulary.odm2.org/medium/notApplicable",
+				"http://vocabulary.odm2.org/medium/organism",
+				"http://vocabulary.odm2.org/medium/liquidAqueous",
+				"http://vocabulary.odm2.org/medium/liquidOrganic",
+				"http://vocabulary.odm2.org/medium/air",
+				"http://vocabulary.odm2.org/medium/gas",
+				"http://vocabulary.odm2.org/medium/ice",
+				"http://vocabulary.odm2.org/medium/habitat",
+				"http://vocabulary.odm2.org/medium/regolith"
+			],
+			"type": "string"
+		},
+		"registrationType": {
+			"enum": [
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/PhysicalSample",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/SampleCollection",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/SamplingFeature"
+			],
+			"type": "string"
+		},
+		"relationType": {
+			"description": "Description of the relationship between the resource being registered and other entities (e.g., events, documents, etc.) - adopted from datacite-relationType-v4.0.",
+			"enum": [
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDerivedFrom",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsSourceOf",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsAggregateOf",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsMemberOf",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasReferenceResource",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsIdenticalTo",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDocumentedBy",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/Participates",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasDigitalRepresentation",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsDigitalRepresentationOf",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/HasSamplingFeature",
+				"http://pid.geoscience.gov.au/def/voc/igsn-codelists/IsSamplingFeatureOf"
+			],
+			"type": "string"
+		},
+		"resourceType": {
+			"description": "Describes the basic form of the resource registered; mainly applicable to physical samples and sample collections. Adapted from http://vocabulary.odm2.org/specimentype/. For a list of resource types, see http://vocabulary.odm2.org/specimentype/sampleType ",
+			"enum": [
+				"http://vocabulary.odm2.org/specimentype/thinSection",
+				"http://vocabulary.odm2.org/specimentype/other",
+				"http://vocabulary.odm2.org/specimentype/petriDishDryDeposition",
+				"http://vocabulary.odm2.org/specimentype/precipitationBulk",
+				"http://vocabulary.odm2.org/specimentype/rockPowder",
+				"http://vocabulary.odm2.org/specimentype/standardReferenceSpecimen",
+				"http://vocabulary.odm2.org/specimentype/terrestrialSection",
+				"http://vocabulary.odm2.org/specimentype/orientedCore",
+				"http://vocabulary.odm2.org/specimentype/automated",
+				"http://vocabulary.odm2.org/specimentype/core",
+				"http://vocabulary.odm2.org/specimentype/coreHalfRound",
+				"http://vocabulary.odm2.org/specimentype/corePiece",
+				"http://vocabulary.odm2.org/specimentype/coreQuarterRound",
+				"http://vocabulary.odm2.org/specimentype/coreSection",
+				"http://vocabulary.odm2.org/specimentype/coreSectionHalf",
+				"http://vocabulary.odm2.org/specimentype/coreSub-Piece",
+				"http://vocabulary.odm2.org/specimentype/coreWholeRound",
+				"http://vocabulary.odm2.org/specimentype/cuttings",
+				"http://vocabulary.odm2.org/specimentype/dredge",
+				"http://vocabulary.odm2.org/specimentype/foliageDigestion",
+				"http://vocabulary.odm2.org/specimentype/foliageLeaching",
+				"http://vocabulary.odm2.org/specimentype/forestFloorDigestion",
+				"http://vocabulary.odm2.org/specimentype/individualSample",
+				"http://vocabulary.odm2.org/specimentype/litterFallDigestion",
+				"http://vocabulary.odm2.org/specimentype/grab"
+			],
+			"type": "string"
+		},
+		"spatialRefType": {
+			"description": "The EPSG Geodetic Parameter Dataset is a structured dataset of Coordinate Reference Systems and Coordinate Transformations. EPSG codes of horizontal/vertical reference system are available at https://epsg.io/ ",
+			"enum": [
+				"https://epsg.io/4326",
+				"https://epsg.io/3112",
+				"https://epsg.io/4939",
+				"https://epsg.io/4283",
+				"https://epsg.io/5711",
+				"https://epsg.io/5712",
+				"https://epsg.io/8311",
+				"https://epsg.io/5714",
+				"https://epsg.io/5715"
+			],
+			"type": "string"
+		},
+		"resources": {
+			"additionalProperties": false,
+			"description": "A batch of resouces that will registered with IGSNs. ",
+			"properties": {
+				"resource": {
+					"items": {
+						"description": "A resource may refer to a physical sample (specimen), a collection, i.e., physical o logical grouping of physical samples, or a sampling feature (see OGC Observations and Measurements )",
+						"properties": {
+							"registeredObjectType": {
+								"$ref": "#/definitions/registrationType"
+							},
+							"alternateIdentifiers": {
+								"description": "Alternate identifiers of the resource, including the local and other web-resolvable identifiers. Please include the full form of a web-resolvable identifier. For example, 'urn:lsid:ubio.org:namebank:11815', 'urn:ietf:rfc:2648'.",
+								"items": {
+									"type": "string"
+								},
+								"minItems": 1,
+								"type": "array"
+							},
+							"campaign": {
+								"description": "The field program/related projects, e.g., cruise or expedition; typically used for samples and sample collections.",
+								"type": "string"
+							},
+							"classifications": {
+								"description": "Domain-specific classification codes, i.e. other concepts describing the physical form, function or type of the resource. ",
+								"items": {
+									"type": "string",
+									"format": "uri"
+								},
+								"minItems": 1,
+								"type": "array"
+							},
+							"comments": {
+								"description": "Any free text describing the resource.This can also be used to include additional metadata which cannot be specified with the standard schema elements.",
+								"type": "string"
+							},
+							"contributors": {
+								"description": "Use this element to give recognition of those who contributed to the resource(s). Use contributor type 'originator' to indicate a sample collector/creator.",
+								"properties": {
+									"contributor": {
+										"items": {
+											"properties": {
+												"contributorType": {
+													"$ref": "#/definitions/contributorType"
+												},
+												"contributorIdentifier": {
+													"type": "string",
+													"format": "uri"
+												},
+												"contributorName": {
+													"minLength": 1,
+													"type": "string"
+												}
+											},
+											"required": [
+												"contributorName",
+												"contributorType"
+											],
+											"type": "object"
+										},
+										"minItems": 1,
+										"type": "array"
+									}
+								},
+								"required": [
+									"contributor"
+								],
+								"type": "object"
+							},
+							"curationDetails": {
+								"description": "Resource archival information, mainly applicable to physical samples and sample colletions. The curating instuition must be specified. This can be present or future curator.",
+								"properties": {
+									"curation": {
+										"items": {
+											"properties": {
+												"curatingInstitution": {
+													"type": "string"
+												},
+												"curationDate": {
+													"$ref": "#/definitions/def_W3CDTFdate",
+													"description": "The date the resource was moved to its current location. We expect W3CDTFdate"
+												},
+												"curationLocation": {
+													"type": "string",
+													"description": "The location (address) where the resource is stored. This can be general or specific (room number, building name)."
+												},
+												"curator": {
+													"type": "string",
+													"description": "The full name of a resource curator."
+												}
+											},
+											"required": [
+												"curatingInstitution"
+											],
+											"type": "object"
+										},
+										"minItems": 1,
+										"type": "array"
+									}
+								},
+								"required": [
+									"curation"
+								],
+								"type": "object"
+							},
+							"date": {
+								"anyOf": [
+									{
+										"type": "null"
+									},
+									{
+										"properties": {
+											"timeInstant": {
+												"$ref": "#/definitions/def_W3CDTFdate"
+											},
+											"timePeriod": {
+												"properties": {
+													"end": {
+														"$ref": "#/definitions/def_W3CDTFdate"
+													},
+													"start": {
+														"$ref": "#/definitions/def_W3CDTFdate"
+													}
+												},
+												"required": [
+													"end",
+													"start"
+												],
+												"type": "object"
+											}
+										},
+										"type": "object"
+									}
+								],
+								"description": "The time period or date of the collection/creation of the resource."
+							},
+							"isPublic": {
+								"type": "boolean",
+								"description": "The visibility of a resource's metadata. Use 'true' for public and 'false' for private resources."
+							},
+							"landingPage": {
+								"description": "The landing page of a resource. This page contains more detailed (domain-specific) information about the resource.",
+								"pattern": "^(https?\\://[\\w\\D]+)$",
+								"type": "string"
+							},
+							"location": {
+								"anyOf": [
+									{
+										"type": "null"
+									},
+									{
+										"properties": {
+											"geometry": {
+												"$ref": "#/definitions/def_geometry",
+												"description": "The Well Known Text (WKT) representation of a resource's location. For example: POINT(123.45 543.21). Use the following websites to determine the relevant EPSG codes of horizontal/vertical reference systems: (a) http://spatialreference.org (b) https://epsg.io/"
+											},
+											"locality": {
+												"type": "string",
+												"description": "The named place/toponym or address. You may use the attribute localityIdentifier to denote the web location of a place."
+											}
+										},
+										"type": "object"
+									}
+								],
+								"description": "The location where the resource was found/collected (sampling feature,specimen) or created (synthetic materials). This may refer to a geo-location (in WKT) or a locality (aka. toponym). For a spatial location, the srid attribute may be used to indicate the spatial reference system (in EPSG). "
+							},
+							"logDate": {
+								"$ref": "#/definitions/def_logdate",
+								"description": "Use this element to indicate an event (the status of a resource or its registration) and its timestamp."
+							},
+							"materialTypes": {
+								"items": {
+									"description": "Categorize the materials that compose a resource. Adapted from http://vocabulary.odm2.org/medium/. For all material types, see http://vocabulary.odm2.org/medium/materialType ",
+									"enum": [
+										"http://vocabulary.odm2.org/medium/snow",
+										"http://vocabulary.odm2.org/medium/soil",
+										"http://vocabulary.odm2.org/medium/tissue",
+										"http://vocabulary.odm2.org/medium/particulate",
+										"http://vocabulary.odm2.org/medium/rock",
+										"http://vocabulary.odm2.org/medium/sediment",
+										"http://vocabulary.odm2.org/medium/other",
+										"http://vocabulary.odm2.org/medium/mineral",
+										"http://vocabulary.odm2.org/medium/notApplicable",
+										"http://vocabulary.odm2.org/medium/organism",
+										"http://vocabulary.odm2.org/medium/liquidAqueous",
+										"http://vocabulary.odm2.org/medium/liquidOrganic",
+										"http://vocabulary.odm2.org/medium/air",
+										"http://vocabulary.odm2.org/medium/gas",
+										"http://vocabulary.odm2.org/medium/ice",
+										"http://vocabulary.odm2.org/medium/habitat",
+										"http://vocabulary.odm2.org/medium/regolith"
+									],
+									"type": "string"
+								}
+							},
+							"method": {
+								"$ref": "#/definitions/def_method",
+								"description": "The method/instrument by which the resource was collected/created, e.g., Dredging, Manual Observation. "
+							},
+							"purpose": {
+								"description": "The purpose for collecting/creating the resource.",
+								"type": "string"
+							},
+							"relatedResources": {
+								"properties": {
+									"relatedResource": {
+										"items": {
+											"$ref": "#/definitions/def_relatedresource",
+											"description": "Identifiers of related resources. Use this element to indicate related resources, documents, events, domain features, etc."
+										},
+										"minItems": 1,
+										"type": "array"
+									}
+								},
+								"required": [
+									"relatedResource"
+								],
+								"type": "object"
+							},
+							"resourceIdentifier": {
+								"$ref": "#/definitions/def_igsn",
+								"description": "The IGSN code of a resource, e.g., CSRWASC111. The first two characters must be [A-Z] and specify the namespace of an allocating agent. The CS namespace has been assigned to CSIRO. This is followed by 3 characters [A-Z] representing the client, as designated by the allocating agent. The rest characters represent the local sample code specified by the client. This can be a combination of characters, numbers and dash (-) and dot (.). See the xsd pattern constraint."
+							},
+							"resourceTitle": {
+								"description": "The name, descriptive phrase or title of the resource.",
+								"type": "string"
+							},
+							"resourceTypes": {
+								"items": {
+									"description": "Describes the physical form of the resource registered; mainly applicable to physical samples and sample collections. Adapted from http://vocabulary.odm2.org/specimentype/. For a list of resource types, see http://vocabulary.odm2.org/specimentype/sampleType ",
+									"enum": [
+										"http://vocabulary.odm2.org/specimentype/thinSection",
+										"http://vocabulary.odm2.org/specimentype/other",
+										"http://vocabulary.odm2.org/specimentype/petriDishDryDeposition",
+										"http://vocabulary.odm2.org/specimentype/precipitationBulk",
+										"http://vocabulary.odm2.org/specimentype/rockPowder",
+										"http://vocabulary.odm2.org/specimentype/standardReferenceSpecimen",
+										"http://vocabulary.odm2.org/specimentype/terrestrialSection",
+										"http://vocabulary.odm2.org/specimentype/orientedCore",
+										"http://vocabulary.odm2.org/specimentype/automated",
+										"http://vocabulary.odm2.org/specimentype/core",
+										"http://vocabulary.odm2.org/specimentype/coreHalfRound",
+										"http://vocabulary.odm2.org/specimentype/corePiece",
+										"http://vocabulary.odm2.org/specimentype/coreQuarterRound",
+										"http://vocabulary.odm2.org/specimentype/coreSection",
+										"http://vocabulary.odm2.org/specimentype/coreSectionHalf",
+										"http://vocabulary.odm2.org/specimentype/coreSub-Piece",
+										"http://vocabulary.odm2.org/specimentype/coreWholeRound",
+										"http://vocabulary.odm2.org/specimentype/cuttings",
+										"http://vocabulary.odm2.org/specimentype/dredge",
+										"http://vocabulary.odm2.org/specimentype/foliageDigestion",
+										"http://vocabulary.odm2.org/specimentype/foliageLeaching",
+										"http://vocabulary.odm2.org/specimentype/forestFloorDigestion",
+										"http://vocabulary.odm2.org/specimentype/individualSample",
+										"http://vocabulary.odm2.org/specimentype/litterFallDigestion",
+										"http://vocabulary.odm2.org/specimentype/grab"
+									],
+									"type": "string"
+								}
+							}
+						},
+						"required": [
+							"curationDetails",
+							"isPublic",
+							"landingPage",
+							"logDate",
+							"materialTypes",
+							"resourceIdentifier",
+							"resourceTitle",
+							"resourceTypes",
+							"registeredObjectType"
+						],
+						"type": "object"
+					},
+					"minItems": 1,
+					"type": "array"
+				}
+			},
+			"required": [
+				"resource"
+			],
+			"type": "object"
+		}
+	},
+	"type": "object",
+	"properties": {
+		"resources": {
+			"$ref": "#/definitions/resources"
+		}
+	}
+	
+}

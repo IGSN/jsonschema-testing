@@ -1,0 +1,49 @@
+{
+	"resources": {
+		"resource": [
+			{
+				"registeredObjectType": "http://pid.geoscience.gov.au/def/voc/igsn-codelists/PhysicalSample",
+				"resourceIdentifier": "AU1000011",
+				"landingPage": "https://pid.geoscience.gov.au/sample/AU1000011",
+				"resourceTitle": "Sample igsn:AU1000011",
+				"isPublic": true,
+				"resourceTypes": [
+					"http://vocabulary.odm2.org/specimentype/thinSection"
+				],
+				"materialTypes": [
+					"http://vocabulary.odm2.org/medium/particulate",
+					"http://vocabulary.odm2.org/medium/rock"
+				],
+				"method": {
+					"value": "missing",
+					"methodURI": "http://www.opengis.net/def/nil/OGC/0/missing"
+				},
+				"location": {
+					"geometry": {
+						"value": "POINTZ(121.3724129 -15.47114123 -155.7502)",
+						"srid": "https://epsg.io/8311",
+						"verticalDatum": "https://epsg.io/4283"
+					}
+				},
+				"curationDetails": {
+					"curation": [
+						{
+							"curator": "Geoscience Australia",
+							"curationDate": "2016-10-05T08:00",
+							"curationLocation": "Geoscience Australia, Jerrabomberra Ave, Symonston, ACT, Australia",
+							"curatingInstitution": "http://pid.geoscience.gov.au/org/ga"
+						}
+					]
+				},
+				"alternateIdentifiers": [
+					"1000011",
+					"GA-1000011"
+				],
+				"logDate": {
+					"eventType": "registered",
+					"value": "2016-10-05T08:00"
+				}
+			}
+		]
+	}
+}

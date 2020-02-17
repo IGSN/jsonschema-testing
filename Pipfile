@@ -12,16 +12,17 @@ pygments-json = "*"
 tqdm = "*"
 pandas = "*"
 lxml = "*"
+jsonschema = "*"
+docformatter = "*"
 
 [packages]
-fastapi = "*"
-starlette = "*"
-uvicorn = "*"
 requests = "*"
 faker = "*"
 faker-schema = "*"
-jsonschema = {extras = ["format_nongpl"],version = "*"}
-email-validator = "*"
+fastjsonschema = "*"
+jsonref = "*"
+click = "*"
+catalogue = "*"
 
 [requires]
 python_version = "3.7"

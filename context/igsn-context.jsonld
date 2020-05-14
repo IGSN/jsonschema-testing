@@ -1,0 +1,13 @@
+{
+  "@context": {
+    "igsn": "https://example.org/igsn/vocab#",
+    "Term1": "igsn:term1",
+    "Term2": "igsn:term2",
+    "coordinates": {
+      "@container": "@list",
+      "@id": "igsn:coordinates"
+    },
+    "id": "@id",
+    "type": "@type"
+  }
+}
